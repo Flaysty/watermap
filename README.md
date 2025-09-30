@@ -8,7 +8,7 @@
 
 
 ## Установка
-1. Убедитесь, что у вас установлен Python 3.8 или выше.
+1. Убедитесь, что у вас OS Linux и установлен Docker и DockerCompose.
 2. Склонируйте репозиторий:
    ```bash
    git clone https://github.com/rushan007/WaterEmergencyPredict.git
@@ -29,6 +29,3 @@
 - Linux
 - Docker
 - DockerCompose
-
-
-
