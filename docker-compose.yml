@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+## Back
+  backend:
+    build:
+      context: ./service/backend
+      dockerfile: .Dockerfile
+    ports:
+      - "8080:8000"
+    #environment:
+    # - APP_ENV=production
+    volumes:
+      - ./service/backend/server:/home/backend/server
+    # Запуск сервера
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+    # Заглушка чтобы не контейнер оставался открытым при выключенном сервере
+    #command: tail -f /dev/null
+    restart: unless-stopped
+### Front
+  frontend:
+    build:
+      context: ./service/frontend
+      dockerfile: .Dockerfile
+    ports:
+      - "3081:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./service/frontend/www:/usr/share/nginx/html
+    restart: unless-stopped
