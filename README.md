@@ -166,5 +166,8 @@
 ## Архитектурная схема системы
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/arch.jpg)
 
-
+## Стэк технологий: 
+**Back:** Python (lightgbm, scikit-learn, statsmodels, SARIMAX, numpy, torch, TimeSeriesTransformer)
+**Front:** React JS
+**BD:** MySQL/PostgreSQL
 
