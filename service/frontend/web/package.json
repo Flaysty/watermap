@@ -32,6 +32,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.2",
     "@tanstack/react-router": "^1.132.2",
     "@types/three": "^0.180.0",
     "clsx": "^2.1.1",

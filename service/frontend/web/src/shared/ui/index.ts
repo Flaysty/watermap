@@ -1,4 +1,5 @@
 export { Chart } from './Chart'
+export { ChartModal } from './chart-modal'
 export { ElectronicSignature } from './electronic-signature'
 export { EventsPanel } from './events-panel'
 export { Icons } from './Icon'

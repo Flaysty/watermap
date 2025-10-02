@@ -55,6 +55,14 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 3001,
+      proxy: {
+        '/api': {
+          target: 'https://xn----7sbabaalq3cfnwjby6a.xn--p1ai',
+          changeOrigin: true,
+          secure: true,
+          rewrite: path => path.replace(/^\/api/, '/api'),
+        },
+      },
     },
   }
 })

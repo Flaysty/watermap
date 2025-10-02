@@ -1,4 +1,4 @@
-import { Filter, MoreHorizontal } from 'lucide-react'
+import { Filter, MoreHorizontal, BarChart3 } from 'lucide-react'
 import React, { FC, useState } from 'react'
 import { MOCK_EVENTS } from '~/shared/constants'
 import {
@@ -7,11 +7,12 @@ import {
   sortEventsByPriority,
 } from '~/shared/lib/data-utils'
 import type { EventItem } from '~/shared/types'
-import { Modal, ObjectPopup } from '~/shared/ui'
+import { Modal, ObjectPopup, ChartModal } from '~/shared/ui'
 import styles from './EventsPanel.module.scss'
 
 export const EventsPanel: FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null)
+  const [isChartModalOpen, setIsChartModalOpen] = useState(false)
   const sortedEvents = sortEventsByPriority(MOCK_EVENTS)
 
   return (
@@ -19,9 +20,18 @@ export const EventsPanel: FC = () => {
       <div className={styles.eventsPanel}>
         <div className={styles.header}>
           <h3 className={styles.title}>Рекомендации</h3>
-          <button className={styles.filtersButton}>
-            <Filter size={14} />
-          </button>
+          <div className={styles.headerButtons}>
+            <button
+              className={styles.chartButton}
+              onClick={() => setIsChartModalOpen(true)}
+              title="Открыть графики данных"
+            >
+              <BarChart3 size={16} />
+            </button>
+            <button className={styles.filtersButton}>
+              <Filter size={14} />
+            </button>
+          </div>
         </div>
 
         <div className={styles.eventsList}>
@@ -87,6 +97,11 @@ export const EventsPanel: FC = () => {
           />
         )}
       </Modal>
+
+      <ChartModal
+        isOpen={isChartModalOpen}
+        onClose={() => setIsChartModalOpen(false)}
+      />
     </>
   )
 }
