@@ -45,9 +45,9 @@
 | Потребление за период, м3 | LGBM               |   4    |      384      | 0.03  | 0.05  | 20.11 |  0.02  |  0.02   |  0.02   | 20.11 |
 | Потребление за период, м3 | Transformer        |   6    |      576      | 0.06  | 0.08  | 33.49 |  0.02  |  0.02   |  0.09   | 33.49 |
 
-Просмотреть и запустить моделирование можно здесь: https://colab.research.google.com/drive/1uWrN-9JtGUzCNBO7cQZr5lm4gkUj5OLk?usp=sharing
-Сам скрипт можно скачать здесь: https://github.com/Flaysty/watermap/blob/main/docs/Vodokanal_EDA_model.ipynb
-**LGBM** демонстрирует наилучшее качество прогноза (MAE≈0.03, SMAPE≈20%), заметно опережая **Linear Regression** (SMAPE≈80%) и **Transformer** (SMAPE≈33%).
+* Просмотреть и запустить моделирование можно здесь: https://colab.research.google.com/drive/1uWrN-9JtGUzCNBO7cQZr5lm4gkUj5OLk?usp=sharing
+* Сам скрипт можно скачать здесь: https://github.com/Flaysty/watermap/blob/main/docs/Vodokanal_EDA_model.ipynb
+* **LGBM** демонстрирует наилучшее качество прогноза (MAE≈0.03, SMAPE≈20%), заметно опережая **Linear Regression** (SMAPE≈80%) и **Transformer** (SMAPE≈33%).
 
 
 ### Как выглядит результат моделирования
