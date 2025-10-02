@@ -134,6 +134,23 @@ export const ChartModal: FC<ChartModalProps> = ({ isOpen, onClose }) => {
     }))
   }, [intradayData])
 
+  // Функция для преобразования латинских названий в кириллические подписи
+  const getCyrillicLabel = (dataKey: string): string => {
+    const labelMap: Record<string, string> = {
+      podacha: 'Подача',
+      obratka: 'Обратка',
+      potreblenie: 'Потребление',
+      temperatura1: 'Т1 ГВС',
+      temperatura2: 'Т2 ГВС',
+      podachaPrognoz: 'Подача (прогноз)',
+      obratkaPrognoz: 'Обратка (прогноз)',
+      potrebleniePrognoz: 'Потребление (прогноз)',
+      temperatura1Prognoz: 'Т1 ГВС (прогноз)',
+      temperatura2Prognoz: 'Т2 ГВС (прогноз)',
+    }
+    return labelMap[dataKey] || dataKey
+  }
+
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
@@ -144,7 +161,7 @@ export const ChartModal: FC<ChartModalProps> = ({ isOpen, onClose }) => {
               key={index}
               style={{ color: entry.color }}
             >
-              {`${entry.dataKey}: ${entry.value}`}
+              {`${getCyrillicLabel(entry.dataKey)}: ${entry.value}`}
             </p>
           ))}
         </div>
