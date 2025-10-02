@@ -1,0 +1,143 @@
+/* Стили для resize handles */
+[data-panel-resize-handle] {
+  position: relative;
+  background: transparent;
+  transition: all 0.2s ease;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+/* Горизонтальные разделители (для вертикального направления) */
+[data-panel-resize-handle][data-panel-group-direction="vertical"] {
+  cursor: row-resize;
+  height: 8px;
+  background: linear-gradient(to right, transparent 0%, #e5e7eb 20%, #e5e7eb 80%, transparent 100%);
+}
+
+/* Вертикальные разделители (для горизонтального направления) */
+[data-panel-resize-handle][data-panel-group-direction="horizontal"] {
+  cursor: col-resize;
+  width: 8px;
+  background: linear-gradient(to bottom, transparent 0%, #e5e7eb 20%, #e5e7eb 80%, transparent 100%);
+}
+
+/* Hover эффекты */
+[data-panel-resize-handle]:hover {
+  background: linear-gradient(to right, transparent 0%, #3a78ff 20%, #3a78ff 80%, transparent 100%);
+}
+
+[data-panel-resize-handle][data-panel-group-direction="vertical"]:hover {
+  background: linear-gradient(to right, transparent 0%, #3a78ff 20%, #3a78ff 80%, transparent 100%);
+}
+
+[data-panel-resize-handle][data-panel-group-direction="horizontal"]:hover {
+  background: linear-gradient(to bottom, transparent 0%, #3a78ff 20%, #3a78ff 80%, transparent 100%);
+}
+
+/* Индикатор для горизонтальных разделителей */
+[data-panel-resize-handle][data-panel-group-direction="vertical"]::before {
+  content: '⋮';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  color: #6b7280;
+  font-weight: bold;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+/* Индикатор для вертикальных разделителей */
+[data-panel-resize-handle][data-panel-group-direction="horizontal"]::before {
+  content: '⋮';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  font-size: 16px;
+  color: #6b7280;
+  font-weight: bold;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+/* Показываем индикаторы при hover */
+[data-panel-resize-handle]:hover::before {
+  opacity: 1;
+  color: white;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Активное состояние при перетаскивании */
+[data-panel-resize-handle][data-resize-handle-state='dragging'] {
+  background: linear-gradient(to right, transparent 0%, #3a78ff 20%, #3a78ff 80%, transparent 100%) !important;
+}
+
+[data-panel-resize-handle][data-panel-group-direction="vertical"][data-resize-handle-state='dragging'] {
+  background: linear-gradient(to right, transparent 0%, #3a78ff 20%, #3a78ff 80%, transparent 100%) !important;
+}
+
+[data-panel-resize-handle][data-panel-group-direction="horizontal"][data-resize-handle-state='dragging'] {
+  background: linear-gradient(to bottom, transparent 0%, #3a78ff 20%, #3a78ff 80%, transparent 100%) !important;
+}
+
+[data-panel-resize-handle][data-resize-handle-state='dragging']::before {
+  opacity: 1 !important;
+  color: white !important;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Дополнительные визуальные подсказки */
+[data-panel-resize-handle]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(58, 120, 255, 0.1);
+  opacity: 0;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+[data-panel-resize-handle]:hover::after {
+  opacity: 1;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.1;
+  }
+}
+
+/* Улучшенные курсоры */
+[data-panel-resize-handle][data-panel-group-direction="vertical"] {
+  cursor: ns-resize;
+}
+
+[data-panel-resize-handle][data-panel-group-direction="horizontal"] {
+  cursor: ew-resize;
+}
+
+/* Дополнительные стили для лучшей видимости */
+[data-panel-resize-handle] {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+[data-panel-resize-handle]:hover {
+  box-shadow: inset 0 0 0 1px rgba(58, 120, 255, 0.3);
+}

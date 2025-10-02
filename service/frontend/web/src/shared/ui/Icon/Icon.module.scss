@@ -1,0 +1,17 @@
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  svg {
+    display: block;
+    width: 1em;
+    height: 1em;
+  }
+}

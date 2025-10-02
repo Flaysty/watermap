@@ -1,0 +1,525 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  color: #3b82f6;
+  width: 24px;
+  height: 24px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 2px 0 0 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #f1f5f9;
+    color: #374151;
+  }
+}
+
+.content {
+  padding: 24px;
+}
+
+.progressSection {
+  margin-bottom: 24px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+.currentStep {
+  margin-bottom: 24px;
+}
+
+.stepHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.stepIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.stepInfo {
+  flex: 1;
+}
+
+.stepTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+}
+
+.stepDescription {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.stepDetails {
+  margin-bottom: 20px;
+}
+
+.detailsCard {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.detailsHeader {
+  margin-bottom: 8px;
+}
+
+.detailsLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detailsContent {
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.stepActions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.confirmButton {
+  width: 100%;
+  padding: 12px 20px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.completedSteps {
+  margin-bottom: 24px;
+}
+
+.completedTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+}
+
+.completedList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.completedItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  color: #166534;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.loadingContainer {
+  width: 100%;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.loadingBar {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.loadingFill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  border-radius: 4px;
+  transition: width 0.1s ease;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.loadingText {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3b82f6;
+}
+
+.signatureInfo {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.infoItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #e2e8f0;
+  }
+}
+
+.infoLabel {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.infoValue {
+  font-size: 14px;
+  color: #1e293b;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+}
+
+.footer {
+  padding: 20px 24px;
+  border-top: 1px solid #e5e7eb;
+  background: #f8fafc;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cancelButton {
+  padding: 10px 20px;
+  background: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Адаптивность
+@media (max-width: 640px) {
+  .modal {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .header {
+    padding: 16px 20px;
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  .footer {
+    padding: 16px 20px;
+  }
+}
+
+// Стили для финального экрана с галочкой
+.completionModal {
+  background: white;
+  border-radius: 16px;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-width: 400px;
+  width: 90%;
+  padding: 40px 32px;
+  text-align: center;
+  animation: completionSlideIn 0.5s ease-out;
+}
+
+@keyframes completionSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.checkmarkContainer {
+  margin-bottom: 24px;
+}
+
+.checkmarkCircle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  animation: checkmarkPulse 0.6s ease-out;
+}
+
+@keyframes checkmarkPulse {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.checkmark {
+  width: 32px;
+  height: 32px;
+  position: relative;
+}
+
+.checkmarkStem {
+  position: absolute;
+  width: 3px;
+  height: 16px;
+  background: white;
+  left: 12px;
+  top: 6px;
+  transform: rotate(45deg);
+  border-radius: 2px;
+  animation: checkmarkDraw 0.3s ease-out 0.3s both;
+}
+
+.checkmarkKick {
+  position: absolute;
+  width: 3px;
+  height: 8px;
+  background: white;
+  left: 8px;
+  top: 18px;
+  transform: rotate(-45deg);
+  border-radius: 2px;
+  animation: checkmarkDraw 0.3s ease-out 0.6s both;
+}
+
+@keyframes checkmarkDraw {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: var(--target-height, 16px);
+    opacity: 1;
+  }
+}
+
+.completionContent {
+  text-align: center;
+}
+
+.completionTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+}
+
+.completionSubtitle {
+  font-size: 16px;
+  color: #64748b;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.closeCompletionButton {
+  width: 100%;
+  padding: 12px 20px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
