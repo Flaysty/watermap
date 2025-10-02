@@ -10,6 +10,7 @@
 Видны прогнозы отклонений, технологических ситуаций и рекомендации системы
 
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/taskmaster/7.png)
+
 Мобильный интерфейс бригадира, подробнее здесь: https://github.com/Flaysty/watermap/blob/main/docs/taskmaster
 
 ### Описание
