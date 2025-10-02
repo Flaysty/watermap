@@ -1,6 +1,6 @@
-import browserslistToEsbuild from 'browserslist-to-esbuild'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
+import browserslistToEsbuild from 'browserslist-to-esbuild'
 import path from 'path'
 import { defineConfig } from 'vite'
 
@@ -55,14 +55,6 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port: 3001,
-      proxy: {
-        '/api': {
-          target: 'https://xn----7sbabaalq3cfnwjby6a.xn--p1ai',
-          changeOrigin: true,
-          secure: true,
-          rewrite: path => path.replace(/^\/api/, '/api'),
-        },
-      },
     },
   }
 })
