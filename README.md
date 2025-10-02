@@ -18,11 +18,11 @@
 1. Убедитесь, что у вас OS Linux и установлен Docker и DockerCompose.
 2. Склонируйте репозиторий:
    ```bash
-   git clone https://github.com/rushan007/WaterEmergencyPredict.git
+   [git clone https://github.com/rushan007/WaterEmergencyPredict.git](https://github.com/Flaysty/watermap.git)
    ```
 3. Перейдите в папку проекта:
    ```bash
-   cd WaterEmergencyPredict
+   cd watermap
    ```
 
 ### Использование   
