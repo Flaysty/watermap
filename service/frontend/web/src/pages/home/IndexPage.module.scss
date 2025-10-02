@@ -1,0 +1,46 @@
+/* Основные стили контейнера */
+.container {
+  height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  height: 100%;
+}
+
+/* Десктопная версия */
+.desktopLayout {
+  display: block;
+  height: 100%;
+}
+
+.mapPanel {
+  position: relative;
+}
+
+.eventsPanel {
+  min-width: 200px;
+  max-width: 400px;
+}
+
+/* Мобильная версия */
+.mobileLayout {
+  display: none;
+  height: 100%;
+}
+
+/* На мобильных устройствах (меньше 1024px) */
+@media (max-width: 1023px) {
+  .desktopLayout {
+    display: none;
+  }
+  
+  .mobileLayout {
+    display: block;
+  }
+}

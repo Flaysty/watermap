@@ -1,6 +1,7 @@
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
 import { EventsPanel, Sidebar } from '~/shared/ui'
 import { MapContainer } from '~/widgets'
+import styles from './IndexPage.module.scss'
 
 /**
  * Главная страница приложения с картой и панелями
@@ -9,30 +10,38 @@ import { MapContainer } from '~/widgets'
  */
 export const IndexPage = () => {
   return (
-    <div className="h-screen flex">
-      <div className="flex-shrink-0">
+    <div className={styles.container}>
+      <div className={styles.sidebar}>
         <Sidebar />
       </div>
 
-      <div className="flex-1">
-        <PanelGroup direction="horizontal">
-          <Panel
-            minSize={40}
-            className="relative"
-          >
-            <MapContainer />
-          </Panel>
+      <div className={styles.content}>
+        {/* Desktop Layout */}
+        <div className={styles.desktopLayout}>
+          <PanelGroup direction="horizontal">
+            <Panel
+              minSize={40}
+              className={styles.mapPanel}
+            >
+              <MapContainer />
+            </Panel>
 
-          <PanelResizeHandle />
+            <PanelResizeHandle />
 
-          <Panel
-            minSize={20}
-            maxSize={40}
-            className="min-w-[200px] max-w-[400px]"
-          >
-            <EventsPanel />
-          </Panel>
-        </PanelGroup>
+            <Panel
+              minSize={20}
+              maxSize={40}
+              className={styles.eventsPanel}
+            >
+              <EventsPanel />
+            </Panel>
+          </PanelGroup>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className={styles.mobileLayout}>
+          <EventsPanel />
+        </div>
       </div>
     </div>
   )

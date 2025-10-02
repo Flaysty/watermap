@@ -174,3 +174,47 @@
   color: #6b7280;
   font-weight: 400;
 }
+
+// Mobile styles
+@media (max-width: 1023px) {
+  .eventsPanel {
+    height: 100%;
+    border-left: none;
+    border-right: none;
+    box-shadow: none;
+  }
+  
+  .header {
+    padding: 12px 16px;
+  }
+  
+  .title {
+    font-size: 18px;
+  }
+  
+  .eventsList {
+    padding: 16px;
+  }
+  
+  .eventItem {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .eventTitle {
+    font-size: 14px;
+  }
+  
+  .eventStatus {
+    font-size: 12px;
+  }
+  
+  .time {
+    font-size: 12px;
+  }
+  
+  .priorityTag {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}

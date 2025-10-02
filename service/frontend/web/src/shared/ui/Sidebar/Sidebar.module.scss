@@ -162,3 +162,15 @@
 .sidebar.collapsed .logoutText {
   display: none;
 }
+
+// Mobile responsive styles
+@media (max-width: 1023px) {
+  .sidebar {
+    // Оставляем обычную ширину сайдбара
+    flex-shrink: 0; // Не сжимаем сайдбар
+  }
+  
+  .toggleButton {
+    display: none; // Скрываем кнопку расширения на мобильных
+  }
+}
