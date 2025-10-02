@@ -160,6 +160,11 @@
 **Первые действия:** вывод РЧВ на санитарную мойку/дезинфекцию, ротация резервуаров, усиление остаточного хлора.  
 **KPI:** ↑ расход хлора, ↓ реализация (локальные ограничения), ↑ жалобы.
 
+## пример работы рекомендательного сервиса в интерфейсе системы
+![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/recomendations.jpg)
+
 ## Архитектурная схема системы
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/arch.jpg)
+
+
 
