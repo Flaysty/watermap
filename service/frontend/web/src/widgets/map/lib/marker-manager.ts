@@ -17,7 +17,7 @@ export class MarkerManager {
    */
   createMarkers(
     addresses: Address[],
-    onMarkerClick: (name: string) => void
+    onMarkerClick: (name: string) => void,
   ): void {
     addresses.forEach(({ name, description, coords, icon }) => {
       const el = document.createElement('div')
@@ -100,5 +100,40 @@ export class MarkerManager {
   clearMarkers(): void {
     this.markers.forEach(marker => marker.remove())
     this.markers = []
+  }
+
+  /**
+   * Добавляет заданное количество алерт-маркеров
+   */
+  addRandomAlertMarkers(
+    count: number,
+    onClick?: (coords: [number, number]) => void,
+  ): void {
+    const markers = [
+      [37.55447028092139, 55.78202247448168],
+      [37.63119509795863, 55.80406024411234],
+      [37.6156211201128, 55.76022053924569],
+      [37.620745730502826, 55.73496190886104],
+    ]
+
+    markers.forEach(([lng, lat]) => {
+      const el = document.createElement('div')
+      el.className = 'alert-marker'
+      el.style.cursor = 'pointer'
+      el.innerHTML = '<span>!</span>'
+
+      // Клик по алерт-маркеру
+      el.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        onClick?.([lng, lat])
+      })
+
+      const marker = new maplibregl.Marker({ element: el })
+        .setLngLat([lng, lat])
+        .addTo(this.map)
+
+      this.markers.push(marker)
+    })
   }
 }

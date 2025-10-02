@@ -54,7 +54,9 @@ export const EventsPanel: FC = () => {
                 />
                 <div className={styles.eventText}>
                   <div className={styles.eventTitle}>{event.title}</div>
-                  <div className={styles.eventStatus}>{event.status}</div>
+                  <div className={styles.eventStatus}>
+                    Статус: {event.status}
+                  </div>
                 </div>
               </div>
             </div>
@@ -70,6 +72,17 @@ export const EventsPanel: FC = () => {
           <ObjectPopup
             name={selectedEvent.title}
             description={selectedEvent.status}
+            location={selectedEvent.location}
+            problem={selectedEvent.problem}
+            possibleCauses={selectedEvent.possibleCauses}
+            recommendedActions={selectedEvent.recommendedActions}
+            expectedEffect={selectedEvent.expectedEffect}
+            responsible={selectedEvent.responsible}
+            deadline={selectedEvent.deadline}
+            priority={selectedEvent.priority}
+            metric={selectedEvent.metric}
+            chartData={selectedEvent.chartData}
+            chartConfig={selectedEvent.chartConfig}
             onClose={() => setSelectedEvent(null)}
           />
         )}

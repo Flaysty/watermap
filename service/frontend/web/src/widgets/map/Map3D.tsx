@@ -1,12 +1,21 @@
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import React, { FC, memo, useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
 import { LoadingOverlay } from './components/LoadingOverlay'
 import { MapControls } from './components/MapControls'
 import { MapFooter } from './components/MapFooter'
+import { Modal, ObjectPopup } from '~/shared/ui'
 import { MapOverlay } from './components/MapOverlay'
 import { ADDRESSES, MAP_CONFIG, MOCK_CAMERAS } from './constants'
+import { MOCK_EVENTS } from '~/shared/constants'
 import { useInspectionMode, useMapAnimation, useMapInstance } from './hooks'
 import { Building3DManager } from './lib/building-3d-manager'
 import { createMapStyle } from './lib/create-map-style'
@@ -24,6 +33,11 @@ const Map3DComponent: FC<Map3DProps> = ({ onObjectClick }) => {
   const mapContainer = useRef<HTMLDivElement | null>(null)
   const [isOfficeListOpen, setIsOfficeListOpen] = useState<boolean>(false)
   const [isCamerasOpen, setIsCamerasOpen] = useState<boolean>(true)
+  const [alertModal, setAlertModal] = useState<{
+    isOpen: boolean
+    coords: [number, number] | null
+    eventData: (typeof MOCK_EVENTS)[0] | null
+  }>({ isOpen: false, coords: null, eventData: null })
 
   const {
     mapRef,
@@ -177,6 +191,14 @@ const Map3DComponent: FC<Map3DProps> = ({ onObjectClick }) => {
         onObjectClick?.(name)
       })
 
+      // Добавляем 4 случайных алерт-маркера в пределах Москвы
+      markerManagerRef.current?.addRandomAlertMarkers(4, coords => {
+        // Выбираем случайный набор данных из MOCK_EVENTS
+        const randomEvent =
+          MOCK_EVENTS[Math.floor(Math.random() * MOCK_EVENTS.length)]
+        setAlertModal({ isOpen: true, coords, eventData: randomEvent })
+      })
+
       // Добавляем 3D здания
       buildingManagerRef.current?.add3DBuildings()
       buildingManagerRef.current?.configureLayerVisibility()
@@ -247,6 +269,34 @@ const Map3DComponent: FC<Map3DProps> = ({ onObjectClick }) => {
 
       <MapFooter />
 
+      <Modal
+        isOpen={alertModal.isOpen}
+        onClose={() =>
+          setAlertModal({ isOpen: false, coords: null, eventData: null })
+        }
+      >
+        {alertModal.eventData && (
+          <ObjectPopup
+            name={alertModal.eventData.title}
+            description={alertModal.eventData.status}
+            location={alertModal.eventData.location}
+            problem={alertModal.eventData.problem}
+            possibleCauses={alertModal.eventData.possibleCauses}
+            recommendedActions={alertModal.eventData.recommendedActions}
+            expectedEffect={alertModal.eventData.expectedEffect}
+            responsible={alertModal.eventData.responsible}
+            deadline={alertModal.eventData.deadline}
+            priority={alertModal.eventData.priority}
+            metric={alertModal.eventData.metric}
+            chartData={alertModal.eventData.chartData}
+            chartConfig={alertModal.eventData.chartConfig}
+            onClose={() =>
+              setAlertModal({ isOpen: false, coords: null, eventData: null })
+            }
+          />
+        )}
+      </Modal>
+
       <style>
         {`
           /* Предотвращение мерцания карты */
@@ -275,6 +325,63 @@ const Map3DComponent: FC<Map3DProps> = ({ onObjectClick }) => {
           .custom-marker:hover svg {
             transform: scale(1.5) !important;
             cursor: pointer;
+          }
+
+          .alert-marker:hover span {
+            transform: scale(1.5) !important;
+          }
+
+          .alert-marker span {
+            transition: all 0.2s ease;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #dc3545;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 16px;
+            line-height: 1;
+            box-shadow: 0 0 6px rgba(0,0,0,0.3);
+            border: 1px solid #fff;
+            position: relative;
+            cursor: pointer;
+          }
+
+          /* Алерт-маркеры: пульсация */
+          .alert-marker {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 16px;
+            line-height: 1;
+            box-shadow: 0 0 6px rgba(0,0,0,0.3);
+            border: 1px solid #fff;
+            cursor: pointer;
+            position: relative;
+          }
+
+          .alert-marker::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            background: rgba(220, 53, 69, 0.35);
+            animation: alert-pulse 1.8s ease-out infinite;
+          }
+
+          @keyframes alert-pulse {
+            0% { transform: scale(0.8); opacity: 0.6; }
+            70% { transform: scale(1.6); opacity: 0; }
+            100% { transform: scale(1.6); opacity: 0; }
           }
         `}
       </style>

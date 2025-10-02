@@ -39,12 +39,53 @@ export interface MetricItem {
 }
 
 export interface EventItem {
-  id: string
+  id: number
   time: string
   type: 'critical' | 'warning' | 'info'
   priority: 'high' | 'medium' | 'low'
+  number?: number
   title: string
   status: string
+  // Детальная информация для плана аварии
+  location?: string
+  problem?: string
+  possibleCauses?: string[]
+  recommendedActions?: Array<{
+    text: string
+    urgency: string
+    deadline?: string
+  }>
+  expectedEffect?: string
+  responsible?: string
+  deadline?: string
+  // Динамическая метрика вместо статичной "вероятности утечки"
+  metric?: {
+    label: string
+    value: string
+    percentage: number
+  }
+  // Данные для графика
+  chartData?: Array<{
+    x: number
+    y: number
+    label?: string
+  }>
+  chartConfig?: {
+    color: string
+    title: string
+    xAxisLabel: string
+    yAxisLabel: string
+    legend?: Array<{
+      label: string
+      color: string
+    }>
+    // Поддержка множественных линий
+    multiLineData?: Array<{
+      data: { x: number; y: number }[]
+      color: string
+      label: string
+    }>
+  }
 }
 
 export interface MenuItem {
