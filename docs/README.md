@@ -9,6 +9,10 @@
 ![Forecast comparison](https://github.com/Flaysty/watermap/raw/main/docs/interface_2.png)
 Видны прогнозы отклонений, технологических ситуаций и рекомендации системы
 
+![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/taskmaster/7.png)
+
+Мобильный интерфейс бригадира, подробнее здесь: https://github.com/Flaysty/watermap/blob/main/docs/taskmaster
+
 ### Описание
 
 Проект предоставляет систему прогнозирования и оповещения о аварийных ситуациях на водоканале, предоставляет подробный отчет для дальнейшей проверки и реагирования техническим специалистом.
@@ -18,11 +22,11 @@
 1. Убедитесь, что у вас OS Linux и установлен Docker и DockerCompose.
 2. Склонируйте репозиторий:
    ```bash
-   git clone https://github.com/rushan007/WaterEmergencyPredict.git
+   git clone https://github.com/Flaysty/watermap.git
    ```
 3. Перейдите в папку проекта:
    ```bash
-   cd WaterEmergencyPredict
+   cd watermap
    ```
 
 ### Использование   
@@ -166,5 +170,8 @@
 ## Архитектурная схема системы
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/arch.jpg)
 
-
+## Стэк технологий: 
+**Back:** Python (lightgbm, scikit-learn, statsmodels, SARIMAX, numpy, torch, TimeSeriesTransformer)
+**Front:** React JS
+**BD:** MySQL/PostgreSQL
 
