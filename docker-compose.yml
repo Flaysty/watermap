@@ -1,20 +1,36 @@
 version: "3.8"
 services:
-## Back
+### Back
   backend:
     build:
       context: ./service/backend
       dockerfile: .Dockerfile
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
     ports:
       - "8080:8000"
-    #environment:
-    # - APP_ENV=production
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=example
+      - MYSQL_DATABASE=mydb
+    #  - POSTGRES_HOST=postgres
+    #  - POSTGRES_USER=admin
+    #  - POSTGRES_PASSWORD=example
+    #  - POSTGRES_DB=mydb
     volumes:
       - ./service/backend/server:/home/backend/server
     # Запуск сервера
-    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-    # Заглушка чтобы не контейнер оставался открытым при выключенном сервере
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]  # prod
+    # command: ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"] # dev
     #command: tail -f /dev/null
+    depends_on:
+      mysql:
+        condition: service_healthy
+      # - postgres
     restart: unless-stopped
 ### Front
   frontend:
@@ -28,3 +44,32 @@ services:
     volumes:
       - ./service/frontend/www:/usr/share/nginx/html
     restart: unless-stopped
+### DB:MySQL
+  mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=example
+      - MYSQL_DATABASE=mydb
+    volumes:
+      - ./service/db/mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+### DB:PostgreSQL
+  # postgres:
+  #   image: postgres:16
+  #   environment:
+  #     - POSTGRES_USER=admin
+  #     - POSTGRES_PASSWORD=example
+  #     - POSTGRES_DB=mydb
+  #   volumes:
+  #     - ./service/db/postgresql:/var/lib/postgresql/data
+  #   ports:
+  #     - "5433:5432"
+  #   restart: unless-stopped
