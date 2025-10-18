@@ -52,6 +52,7 @@
 * Просмотреть и запустить моделирование можно здесь: https://colab.research.google.com/drive/1uWrN-9JtGUzCNBO7cQZr5lm4gkUj5OLk?usp=sharing
 * Сам скрипт можно скачать здесь: https://github.com/Flaysty/watermap/blob/main/docs/Vodokanal_EDA_model.ipynb
 * **LGBM** демонстрирует наилучшее качество прогноза (MAE≈0.03, SMAPE≈20%), заметно опережая **Linear Regression** (SMAPE≈80%) и **Transformer** (SMAPE≈33%).
+(*) На примере ГВС/ХВС
 
 
 ### Как выглядит результат моделирования
