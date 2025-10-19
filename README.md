@@ -62,7 +62,7 @@
 **Описание графика:** линии показывают фактическое (сплошная) потребление и прогноз (пунктирная) модели на горизонте в 4х суток.
 
 ## Сценарии аварийных ситуаций
-!(https://github.com/Flaysty/watermap/blob/main/docs/scenario/water_utility_mindmap.png)
+![mindmap](https://github.com/Flaysty/watermap/blob/main/docs/scenario/water_utility_mindmap.png)
 
 * Для генерации данных по этим сценариям используется скрипт: https://github.com/Flaysty/watermap
 * Ноутбук, в котором можно запустить генерацию: https://colab.research.google.com/drive/1eFdRcRFH9X9mGW44FlGzDVNzi4Od39ce?usp=sharing
