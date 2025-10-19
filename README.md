@@ -61,7 +61,7 @@
 
 **Описание графика:** линии показывают фактическое (сплошная) потребление и прогноз (пунктирная) модели на горизонте в 4х суток.
 
-## Сценарии аварийных ситуаций
+## Сценарии, причины и последствия аварийных ситуаций
 Исследование и классификация аварий на городских водоканалах мира: https://docs.google.com/spreadsheets/d/1E6D1bqdESWux7cXtjK5i6diYW7pzIFU_8fJ5mgt-tPY/edit?gid=0#gid=0
 
 ![mindmap](https://github.com/Flaysty/watermap/blob/main/docs/scenario/water_utility_mindmap.png)
