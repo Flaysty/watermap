@@ -254,5 +254,4 @@ Mindmap возможных сценариев с причинами, обору�
 **Front:** React JS
 **BD:** MySQL/PostgreSQL
 
-## API: 
 
