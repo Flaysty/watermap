@@ -243,7 +243,7 @@ Mindmap возможных сценариев с причинами, обору�
 ## пример работы рекомендательного сервиса в интерфейсе системы
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/recomendations.jpg)
 
-## пример настройки порогов для выявления аномали1
+## пример настройки порогов для выявления аномалий
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/trasholds.png)
 
 ## Архитектурная схема системы
@@ -253,4 +253,6 @@ Mindmap возможных сценариев с причинами, обору�
 **Back:** Python (lightgbm, scikit-learn, statsmodels, SARIMAX, numpy, torch, TimeSeriesTransformer)
 **Front:** React JS
 **BD:** MySQL/PostgreSQL
+
+## API: 
 
