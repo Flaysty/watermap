@@ -34,7 +34,7 @@ export const MapOverlay: FC<MapOverlayProps> = ({
         position: 'absolute',
         top: '20px',
         left: '50px',
-        zIndex: 1000,
+        zIndex: 100,
         background: 'rgba(255, 255, 255, 0.95)',
         borderRadius: '8px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',

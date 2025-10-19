@@ -6,12 +6,15 @@ import type { EventItem, MetricItem, PriorityType, TrendType } from '../types'
 
 /**
  * Генерация консистентного случайного числа на основе строки
- * 
+ *
  * @param seed - Строка для генерации хеша
  * @param max - Максимальное значение (по умолчанию 100)
  * @returns Число от 0 до max-1
  */
-export const generateConsistentRandom = (seed: string, max: number = 100): number => {
+export const generateConsistentRandom = (
+  seed: string,
+  max: number = 100,
+): number => {
   const hash = seed
     .split('')
     .reduce((hash, char) => hash + char.charCodeAt(0), 0)
@@ -20,7 +23,7 @@ export const generateConsistentRandom = (seed: string, max: number = 100): numbe
 
 /**
  * Получение текстового описания приоритета
- * 
+ *
  * @param priority - Уровень приоритета
  * @returns Текстовое описание приоритета
  */
@@ -69,7 +72,10 @@ export const generateTrend = (hash: number): TrendType => {
 /**
  * Форматирование значения метрики
  */
-export const formatMetricValue = (trend: TrendType, unit: string = '%'): { value: string; change: string } => {
+export const formatMetricValue = (
+  trend: TrendType,
+  unit: string = '%',
+): { value: string; change: string } => {
   let changeValue: string
   let value: string
 
@@ -138,6 +144,69 @@ export const sortEventsByPriority = (events: EventItem[]): EventItem[] => {
     if (priorityDiff !== 0) return priorityDiff
 
     // Наконец по времени (новые сначала)
-    return b.time.localeCompare(a.time)
+    return a.time.localeCompare(b.time)
   })
+}
+
+/**
+ * Конвертация события падения давления в EmergencyAlert
+ */
+export const convertPressureDropEventToEmergencyAlert = (event: EventItem) => {
+  // Для нового события "Возможная аварийная ситуация" используем данные из инцидента
+  if (event.title === 'Возможная аварийная ситуация') {
+    return {
+      id: event.id,
+      address: event.location || 'Тверская ул., д. 3',
+      cause: 'Старение и коррозия → Порывы/утечки',
+      system: 'Водопроводные сети',
+      equipment: 'Трубы (чугун/сталь/ПЭ/ПВХ)',
+      consequence: 'Утечка воды на участке ДУ300, сталь, 1990 г.в.',
+      criticality: 9,
+      hoursToFailure: 1.5,
+      preventionHours: 4,
+      startTime: '18.10.2025 13:59',
+      predictedFailureTime: '18.10.2025 16:29',
+      actionRequired: true,
+      priorityScore: 533.33,
+      recommendations:
+        'Локализовать участок согласно СП 31.13330.2012; закрыть задвижки по схеме отключения; снизить давление до 0.3 МПа; направить АВБ с муфтами типа "Жибо" и хомутами; запустить корреляционный поиск утечек по ГОСТ Р 56201-2014.',
+    }
+  }
+
+  // Для остальных событий используем старую логику
+  // Извлекаем текущее давление из метрики
+  const currentPressure = parseFloat(
+    event.metric?.value?.replace(' атм', '') || '1.2',
+  )
+  const normalPressure = 2.5 // Нормальное давление
+  const criticalPressure = 0.8 // Критическое давление
+
+  // Рассчитываем время до критического состояния
+  const pressureDropRate = (normalPressure - currentPressure) / 6 // за 6 часов упало
+  const hoursToCritical = Math.max(
+    0,
+    (currentPressure - criticalPressure) / pressureDropRate,
+  )
+
+  return {
+    id: event.id,
+    address: event.location || 'Адрес не указан',
+    cause: event.problem || 'Причина не указана',
+    system: 'Система водоснабжения',
+    equipment: 'Трубопровод ДУ300',
+    consequence:
+      event.expectedEffect || 'Отключение водоснабжения у 200 абонентов',
+    criticality: 10, // Критический приоритет
+    hoursToFailure: 1.5, // Полтора часа до критического состояния
+    preventionHours: 0.5, // 30 минут на предотвращение
+    startTime: event.time,
+    predictedFailureTime: new Date(
+      Date.now() + hoursToCritical * 3600000,
+    ).toLocaleTimeString(),
+    actionRequired: true,
+    priorityScore: event.metric?.percentage || 40,
+    recommendations:
+      event.recommendedActions?.map(action => action.text).join('; ') ||
+      'Немедленное вмешательство требуется',
+  }
 }

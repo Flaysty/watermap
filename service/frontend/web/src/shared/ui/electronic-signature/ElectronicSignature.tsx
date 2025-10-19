@@ -24,7 +24,7 @@ export const ElectronicSignature: FC<ElectronicSignatureProps> = ({
       name: 'Проверка сертификата',
       description: 'Проверка действительности сертификата подписанта',
       action: 'Проверить сертификат',
-      details: 'Сертификат действителен до 15.12.2024',
+      details: 'Сертификат действителен до 26.12.2026',
     },
     {
       name: 'Валидация подписи',

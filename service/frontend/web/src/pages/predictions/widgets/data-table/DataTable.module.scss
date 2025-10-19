@@ -1,0 +1,120 @@
+.dataTable {
+  margin-bottom: 32px;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+  }
+}
+
+.tableInfo {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.tableGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.tableCard {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+
+  h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+  }
+}
+
+.unit {
+  font-size: 0.75rem;
+  color: #64748b;
+  background: #e2e8f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.currentValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.trend {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-top: 1px solid #e2e8f0;
+
+  .trendLabel {
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+
+  .trendValue {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1e293b;
+  }
+}
+
+.normativeIndicator {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background: #fef3c7;
+  border-radius: 8px;
+  border-left: 4px solid #f59e0b;
+
+  .normativeLabel {
+    font-size: 0.75rem;
+    color: #92400e;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .normativeValue {
+    font-size: 0.875rem;
+    color: #92400e;
+    font-weight: 600;
+  }
+
+  .normativeSource {
+    font-size: 0.75rem;
+    color: #a16207;
+    font-style: italic;
+  }
+}

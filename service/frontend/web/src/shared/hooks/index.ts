@@ -1,0 +1,1 @@
+export { useEmergencyAlerts } from './useEmergencyAlerts'

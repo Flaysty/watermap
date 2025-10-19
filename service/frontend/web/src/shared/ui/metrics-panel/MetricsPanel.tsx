@@ -9,6 +9,8 @@ import type { MetricItem, TrendType } from '~/shared/types'
 import { MetricCard } from './components/MetricCard'
 import { MetricModal } from '../metric-modal'
 import { ObjectPopup } from '../object-popup'
+import { Settings } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
 import styles from './MetricsPanel.module.scss'
 import { Modal } from '~/shared'
 
@@ -59,6 +61,7 @@ export const MetricsPanel: FC<MetricsPanelProps> = ({
   onClose,
   objectName = 'Объект водоканала',
 }) => {
+  const navigate = useNavigate()
   const [selectedMetric, setSelectedMetric] = useState<{
     title: string
     value: string
@@ -120,12 +123,21 @@ export const MetricsPanel: FC<MetricsPanelProps> = ({
     <div className={styles.metricsPanel}>
       <div className={styles.header}>
         <h3 className={styles.title}>Показатели: {objectName}</h3>
-        <button
-          className={styles.closeButton}
-          onClick={onClose}
-        >
-          ✕
-        </button>
+        <div className={styles.headerActions}>
+          <button
+            className={styles.settingsButton}
+            onClick={() => navigate({ to: '/settings' })}
+            title="Настройки порогов"
+          >
+            <Settings size={18} />
+          </button>
+          <button
+            className={styles.closeButton}
+            onClick={onClose}
+          >
+            ✕
+          </button>
+        </div>
       </div>
 
       <div className={styles.content}>

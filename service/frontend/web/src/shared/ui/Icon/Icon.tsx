@@ -15,6 +15,7 @@ import {
   SortIcon,
   TimeIcon,
   UserIcon,
+  UsersIcon,
   VideoIcon,
 } from './icons'
 
@@ -35,5 +36,6 @@ export const Icons = {
   Sort: SortIcon,
   Time: TimeIcon,
   User: UserIcon,
+  Users: UsersIcon,
   Video: VideoIcon,
 }

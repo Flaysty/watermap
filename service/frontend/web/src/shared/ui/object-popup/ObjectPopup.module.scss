@@ -84,6 +84,7 @@
 .detailValue {
   color: var(--color-gray-800);
   font-weight: 600;
+  text-align: right;
 }
 
 .probabilityInline {
@@ -130,14 +131,6 @@
   background: linear-gradient(90deg, #dc3545, #ef4444);
   transition: width 0.3s ease;
   border-radius: 2px;
-}
-
-.chartContainer {
-  margin: 16px 0;
-  padding: 16px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
 }
 
 .prognosisSection {

@@ -15,9 +15,7 @@ const RootComponent = () => {
   return (
     <>
       <Outlet />
-      <Suspense>
-        <TanStackRouterDevtools />
-      </Suspense>
+      <Suspense>{/*<TanStackRouterDevtools />*/}</Suspense>
     </>
   )
 }

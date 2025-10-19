@@ -107,11 +107,33 @@ export interface ProcessedIntradayAnalyticsData {
   temperatura2: number[]
 }
 
+export interface ProcessedPredictionData {
+  historical: Array<{
+    datetime: string
+    podacha: number
+    obratka: number
+    potreblenie: number
+    temperatura1: number
+    temperatura2: number
+  }>
+  forecast: Array<{
+    datetime: string
+    podacha: number
+    obratka: number
+    potreblenie: number
+    temperatura1: number
+    temperatura2: number
+  }>
+}
+
 const BASE_URL = 'http://localhost:8080'
+// const BASE_URL = 'https://карта-водоканала.рф'
 
 // Функция для получения данных графиков
 export const fetchChartData = async (): Promise<ProcessedChartData> => {
-  const response = await fetch(`${BASE_URL}/api/fetch_chart_data?action=Visualization`)
+  const response = await fetch(
+    `${BASE_URL}/api/fetch_chart_data?action=Visualization`,
+  )
 
   if (!response.ok) {
     throw new Error('Ошибка загрузки данных графиков')
@@ -140,7 +162,9 @@ export const fetchChartData = async (): Promise<ProcessedChartData> => {
 // Функция для получения данных прогнозирования
 export const fetchPredictionData =
   async (): Promise<ProcessedPredictionData> => {
-    const response = await fetch(`${BASE_URL}/api/fetch_chart_data?action=LR_prediction`)
+    const response = await fetch(
+      `${BASE_URL}/api/fetch_chart_data?action=LR_prediction`,
+    )
 
     if (!response.ok) {
       throw new Error('Ошибка загрузки данных прогнозирования')

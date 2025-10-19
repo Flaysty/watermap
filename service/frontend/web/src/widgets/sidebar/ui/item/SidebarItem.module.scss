@@ -1,0 +1,59 @@
+.item {
+  @apply relative flex items-center transition-colors my-1;
+  align-items: center;
+  padding: 12px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  width: 100%;
+
+  &:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+  }
+
+  &.active {
+    background-color: #3a78ff;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  &.expanded .text {
+    @apply w-52 ml-3;
+  }
+}
+
+.icon {
+  @apply flex text-[24px];
+}
+
+.text {
+  @apply overflow-hidden transition-all w-0;
+}
+
+.tooltip {
+  @apply absolute left-full rounded-md px-2 py-1 ml-2 text-sm invisible -translate-x-6 transition-all;
+  background-color: #222;
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-6px);
+  pointer-events: none;
+  z-index: 50;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #222 transparent transparent;
+  }
+}

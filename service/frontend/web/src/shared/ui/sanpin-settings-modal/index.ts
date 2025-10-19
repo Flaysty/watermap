@@ -1,0 +1,1 @@
+export { SanPinSettingsModal } from './SanPinSettingsModal'

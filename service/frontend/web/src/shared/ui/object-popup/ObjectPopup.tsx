@@ -1,8 +1,8 @@
 import { Copy, Edit3, X } from 'lucide-react'
 import type { FC } from 'react'
 import { useState } from 'react'
-import { Chart } from '../Chart'
 import { ElectronicSignature } from '../electronic-signature'
+import { ObjectChart } from './ObjectChart'
 import styles from './ObjectPopup.module.scss'
 
 interface ObjectPopupProps {
@@ -140,36 +140,10 @@ export const ObjectPopup: FC<ObjectPopupProps> = ({
           </div>
         </div>
 
-        <div className={styles.chartContainer}>
-          <div
-            style={{ marginBottom: '8px', fontSize: '14px', fontWeight: '600' }}
-          >
-            {chartConfig?.title || 'График данных'}
-          </div>
-          <Chart
-            data={
-              chartData || [
-                { x: 4, y: 2.8 },
-                { x: 5, y: 2.7 },
-                { x: 6, y: 2.6 },
-                { x: 7, y: 2.5 },
-                { x: 8, y: 2.4 },
-                { x: 9, y: 2.2 },
-                { x: 10, y: 2.0 },
-                { x: 11, y: 1.8 },
-                { x: 12, y: 1.5 },
-                { x: 13, y: 1.2 },
-              ]
-            }
-            color={chartConfig?.color || '#dc3545'}
-            animated={true}
-            interactive={true}
-            xAxisLabel={chartConfig?.xAxisLabel}
-            yAxisLabel={chartConfig?.yAxisLabel}
-            multiLineData={chartConfig?.multiLineData}
-            showLegend={!!chartConfig?.multiLineData}
-          />
-        </div>
+        <ObjectChart
+          chartData={chartData}
+          chartConfig={chartConfig}
+        />
 
         {possibleCauses && possibleCauses.length > 0 && (
           <div className={styles.causesSection}>

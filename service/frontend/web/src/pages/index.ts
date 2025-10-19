@@ -1,2 +1,7 @@
-export { IndexPage } from './home/IndexPage';
-
+export { RoleSelectionPage } from './role-selection'
+export { DashboardPage } from './dashboard'
+export { PredictionsPage } from './predictions'
+export { SettingsPage } from './settings'
+export { TeamsPage } from './teams'
+export { RisksPage } from './risks'
+export { AppLayout } from './layout/app/AppLayout'

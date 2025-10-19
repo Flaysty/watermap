@@ -1,11 +1,10 @@
 export { Chart } from './Chart'
 export { ChartModal } from './chart-modal'
 export { ElectronicSignature } from './electronic-signature'
+export * from './emergency'
 export { EventsPanel } from './events-panel'
 export { Icons } from './Icon'
 export { MetricModal } from './metric-modal'
 export { MetricsPanel } from './metrics-panel'
 export { Modal } from './Modal'
 export { ObjectPopup } from './object-popup'
-export { Sidebar } from './Sidebar'
-
