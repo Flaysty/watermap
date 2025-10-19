@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h2>Upload File</h2>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">Upload</button>
+    <div id="message" class="message"></div>
+
+    <script>
+    async function uploadFile() {
+        const fileInput = document.getElementById('fileInput');
+        const messageDiv = document.getElementById('message');
+
+        // Проверка наличия файла
+        if (!fileInput.files[0]) {
+            messageDiv.textContent = 'Пожалуйста, выберите файл';
+            messageDiv.className = 'message error';
+            return;
+        }
+
+        // Проверка расширения файла на фронтенде
+        const file = fileInput.files[0];
+        if (!file.name.toLowerCase().endsWith('.xlsx')) {
+            messageDiv.textContent = 'Загружаемый файл должен иметь формат .xlsx';
+            messageDiv.className = 'message error';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('http://localhost:8080/save-data/', {
+                method: 'POST',
+                body: formData
+            });
+
+            // Проверка статуса ответа
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || 'Ошибка загрузки файла');
+            }
+
+            const result = await response.json();
+
+            // Обработка успешного ответа
+            messageDiv.textContent = `Файл "${result.filename}" успешно загружен. ID: ${result.id}, Статус: ${result.status}`;
+            messageDiv.className = 'message success';
+
+            fileInput.value = ''; // Очистка поля ввода
+        } catch (error) {
+            messageDiv.textContent = 'Ошибка загрузки файла: ' + error.message;
+            messageDiv.className = 'message error';
+            console.error('Ошибка:', error); // Логирование в консоль для отладки
+        }
+    }
+    </script>
+</body>
+</html>

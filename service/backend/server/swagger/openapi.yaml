@@ -1,0 +1,208 @@
+openapi: 3.0.3
+info:
+  title:  WaterMap Analytics API
+  description: API получения аналитических данных для постоения графиков на основе загружаемых данных.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Основной сервер API
+paths:
+  /fetch_chart_data:
+    get:
+      summary: Получение аналитических данных
+      description: Возвращает данные аналитики на основе выбранного способа.
+      parameters:
+        - name: action
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [Visualization, LR_prediction, IntradayAnalytics]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  data:
+                    type: object
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: Missing 'action' parameter
+  /upload:
+    post:
+      summary: Загрузка файла для последующего анализа
+      description: Загружает файл для обработки.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required: [file]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: File example.txt uploaded successfully
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Error uploading file
+  /save-data:
+    post:
+      summary: Загрузка данных из .xlsx файла и проведение аналитики
+      description: Загрузка данных из файла, проведение анализа и сохранение результатов в базе данных
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required: [file]
+      responses:
+        '200':
+          description: Данные загружены идет процесс анализа
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  status:
+                    type: string
+                    example: processed
+                  filename:
+                    type: string
+                    example: data.xlsx
+        '400':
+          description: Ошибка валидации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: Загружаемый файл должен иметь формат .xlsx
+  /get-data/{data_id}:
+    get:
+      summary: Получение данных
+      description: Возвращает обработанные данные по ID.
+      parameters:
+        - name: data_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Данные получены
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  data:
+                    type: object
+                  status:
+                    type: string
+                    example: completed
+                  upload_date:
+                    type: string
+                    format: date-time
+                    example: 2025-10-19T16:27:00Z
+                  file_name:
+                    type: string
+                    example: data.xlsx
+        '400':
+          description: Ошибка обработки
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  status:
+                    type: string
+                    example: error
+                  error_message:
+                    type: string
+                    example: Some error occurred
+  /get-status/{data_id}:
+    get:
+      summary: Получение статуса
+      description: Возвращает статус процесса по ID.
+      parameters:
+        - name: data_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Статус получен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  status:
+                    type: string
+                    example: completed
+                  error_message:
+                    type: string
+                    nullable: true
+                    example: null
+        '404':
+          description: Процесс не найден
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Процесс обработки данных не найден

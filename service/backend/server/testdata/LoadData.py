@@ -1,35 +1,50 @@
 from pathlib import Path
 import pandas as pd
+import os, sys
 
-# ───────────────────────── Config ─────────────────────────
-# Базовая папка, где лежат .xlsx (по умолчанию — текущая рабочая директория)
-base_directory: Path = Path(".").resolve()
 
-# Если нужно искать только в корне без подпапок, замените rglob на glob
-excel_file_paths = sorted(
-    p for p in base_directory.rglob("*.xlsx")
-    if not p.name.startswith("~$")  # игнор временных файлов Excel
-)
+def LoadData(file_path=False):
+    # пути к файлам
+    excel_file_paths = []
 
-# ───────────────────────── Read all Excel sheets ─────────────────────────
-dataframes_list: list[pd.DataFrame] = []             # сюда собираем все DF
-dataframes_index: list[tuple[str, str]] = []         # (file_name, sheet_name) для каждого DF
+    if file_path is not False:
+        base_path: Path = Path('uploads/'+file_path).resolve()
+        if base_path.exists() and base_path.is_file():
+            excel_file_paths = [base_path]
 
-for excel_path in excel_file_paths:
-    # sheet_name=None вернёт dict: {sheet_name: DataFrame}
-    sheets_dict = pd.read_excel(excel_path, sheet_name=None, engine="openpyxl")
+    if not excel_file_paths:
+        # Базовая папка, где лежат .xlsx (по умолчанию — текущая рабочая директория)
+        base_directory: Path = Path("./testdata/xlsx").resolve()
+        # Если нужно искать только в корне без подпапок, замените rglob на glob
+        excel_file_paths = sorted(
+            p for p in base_directory.rglob("*.xlsx")
+            if not p.name.startswith("~$")  # игнор временных файлов Excel
+        )
 
-    for sheet_name, df in sheets_dict.items():
-        df = df.copy()
+    #print(excel_file_paths); sys.exit()
 
-        # Сохраняем источник в атрибутах датафрейма (удобно при отладке)
-        df.attrs["source_file_path"] = str(excel_path)
-        df.attrs["source_file_name"] = excel_path.name
-        df.attrs["source_sheet_name"] = sheet_name
+    # ───────────────────────── Read all Excel sheets ─────────────────────────
+    dataframes_list: list[pd.DataFrame] = []             # сюда собираем все DF
+    dataframes_index: list[tuple[str, str]] = []         # (file_name, sheet_name) для каждого DF
 
-        dataframes_list.append(df)
-        dataframes_index.append((excel_path.name, sheet_name))
+    for excel_path in excel_file_paths:
+        # sheet_name=None вернёт dict: {sheet_name: DataFrame}
+        sheets_dict = pd.read_excel(excel_path, sheet_name=None, engine="openpyxl")
 
+        for sheet_name, df in sheets_dict.items():
+            df = df.copy()
+
+            # Сохраняем источник в атрибутах датафрейма (удобно при отладке)
+            df.attrs["source_file_path"] = str(excel_path)
+            df.attrs["source_file_name"] = excel_path.name
+            df.attrs["source_sheet_name"] = sheet_name
+
+            dataframes_list.append(df)
+            dataframes_index.append((excel_path.name, sheet_name))
+
+    return dataframes_list[0];
+
+'''
 # ───────────────────────── Build catalog ─────────────────────────
 catalog_records = []
 for (file_name, sheet_name), df in zip(dataframes_index, dataframes_list):
@@ -47,7 +62,7 @@ dataframes_by_source: dict[str, pd.DataFrame] = {
     f"{file_name}::{sheet_name}": df
     for (file_name, sheet_name), df in zip(dataframes_index, dataframes_list)
 }
-
+'''
 
 # ───────────────────────── Usage examples ─────────────────────────
 '''
