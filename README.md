@@ -39,7 +39,7 @@
 
 ## Интерфейс предиктивно-рекомендательной системы на базе сценарного подхода 
 
-![Forecast comparison](https://github.com/Flaysty/watermap/raw/main/docs/interface.png)
+![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/interface.png)
 Видны текущие отклонения и прогнозы технологических ситуаций
 
 ![Forecast comparison](https://github.com/Flaysty/watermap/raw/main/docs/interface_2.png)
