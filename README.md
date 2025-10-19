@@ -102,10 +102,12 @@
 ![mindmap](https://github.com/Flaysty/watermap/blob/main/docs/scenario/water_utility_mindmap.png)
 Mindmap возможных сценариев с причинами, оборудованием и последствиями
 (для увеличения нажмите на диаграмму)
+
+### Типовые сценарии для моделирования
 * Для генерации данных по этим сценариям используется скрипт: https://github.com/Flaysty/watermap/blob/main/docs/scenario/Vodokanal_scenario_generator.ipynb
 * Ноутбук, в котором можно запустить генерацию данных по сценариям: https://colab.research.google.com/drive/1eFdRcRFH9X9mGW44FlGzDVNzi4Od39ce?usp=sharing
 * Сгенерированные сценарии можно найти здесь: https://github.com/Flaysty/watermap/tree/main/docs/scenario
-### Типовые сценарии для моделирования
+
 #### 1) Прорыв магистрального водовода
 **Причина:** коррозия, гидроудар, работы подрядчика.  
 **Признаки (SCADA/датчики):** резкое падение давления в зоне, скачок расхода, провал «объёма реализации», рост «недоучтённой воды», жалобы.  
