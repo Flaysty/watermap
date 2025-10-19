@@ -243,6 +243,9 @@ Mindmap возможных сценариев с причинами, обору�
 ## пример работы рекомендательного сервиса в интерфейсе системы
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/recomendations.jpg)
 
+## пример настройки порогов для выявления аномали1
+![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/trasholds.jpg)
+
 ## Архитектурная схема системы
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/arch.jpg)
 
