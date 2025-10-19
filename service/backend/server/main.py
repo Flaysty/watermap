@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query, HTTPException, File, UploadFile, BackgroundTasks
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional
 
@@ -11,6 +12,7 @@ import re
 import json
 import os, sys
 import shutil
+import psutil
 
 # db
 from sqlalchemy import create_engine, Column, Integer, JSON, String
@@ -25,7 +27,43 @@ from testdata.SARIMA import SARIMA
 from testdata.IntradayAnalytics import IntradayAnalytics
 
 
+# ========================================================== 
+# база данных
+Base = declarative_base()
 
+# Конфигурация базы данных
+MYSQL_HOST = os.getenv("MYSQL_HOST", "mysql")
+MYSQL_USER = os.getenv("MYSQL_USER", "root")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "example")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "mydb")
+
+DATABASE_URL = f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYSQL_DATABASE}"
+
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Модель для таблицы json_data
+class Data(Base):
+    __tablename__ = "json_data"
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    data = Column(JSON)
+    upload_date = Column(String(19))  ### (ДОБАВЛЕНО) для хранения даты и времени загрузки
+    file_name = Column(String(255))   ### (ДОБАВЛЕНО) для хранения имени файла
+
+
+# Модель для таблицы process_status
+class ProcessStatus(Base):
+    __tablename__ = "process_status"
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    status = Column(String(50), default="processed")
+    error_message = Column(String(500), nullable=True)  # Для хранения сообщения об ошибке
+
+# Создание таблиц
+Base.metadata.create_all(bind=engine)
+# ==========================================================
+
+
+# FastAPI
 app = FastAPI(title="WaterEmergencyPredict API", version="1.0")
 
 # Настройка CORS
@@ -41,7 +79,7 @@ app.add_middleware(
 class ProcessRequest(BaseModel):
     action: str
 
-# ENDPOINT: получение данных аналитики в json
+# ENDPOINT: получение данных аналитики в json ( неиспользуеться )
 @app.api_route("/fetch_chart_data", methods=["GET", "POST"])
 @app.api_route("/api/fetch_chart_data", methods=["GET", "POST"])
 async def process(
@@ -83,42 +121,9 @@ async def upload_file(file: UploadFile = File(...)):
         return JSONResponse(status_code=500, content={"message": f"Error uploading file: {str(e)}"})
 
 
-Base = declarative_base()
-
-# Конфигурация базы данных
-MYSQL_HOST = os.getenv("MYSQL_HOST", "mysql")
-MYSQL_USER = os.getenv("MYSQL_USER", "root")
-MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "example")
-MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "mydb")
-
-DATABASE_URL = f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYSQL_DATABASE}"
-
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# Модель для таблицы json_data
-class Data(Base):
-    __tablename__ = "json_data"
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    data = Column(JSON)
-    upload_date = Column(String(19))  ### (ДОБАВЛЕНО) для хранения даты и времени загрузки
-    file_name = Column(String(255))   ### (ДОБАВЛЕНО) для хранения имени файла
 
 
 
-### (ДОБАВЛЕНО)
-# Модель для таблицы process_status
-class ProcessStatus(Base):
-    __tablename__ = "process_status"
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    status = Column(String(50), default="processed")
-    error_message = Column(String(500), nullable=True)  # Для хранения сообщения об ошибке
-
-
-# Создание таблиц
-Base.metadata.create_all(bind=engine)
-
-### (ДОБАВЛЕНО)
 # Функция валидации структуры файла .xlsx
 def validate_xlsx_file(file_path: str) -> None:
     try:
@@ -180,10 +185,7 @@ def validate_xlsx_file(file_path: str) -> None:
             numeric_columns = ['Подача, м3', 'Обратка, м3', 'Потребление за период, м3', 'Т1 гвс, оС', 'Т2 гвс, оС']
             for col in numeric_columns:
                 if not pd.api.types.is_numeric_dtype(df[col]) or pd.isna(row[col]):
-                    raise HTTPException(
-                        status_code=400,
-                        detail=f"Некорректное значение в столбце '{col}' в строке {index + 2}: {row[col]} (ожидалось число)"
-                    )
+                    raise HTTPException(status_code=400, detail=f"Некорректное значение в столбце '{col}' в строке {index + 2}: {row[col]} (ожидалось число)")
     except Exception as e:
         if isinstance(e, HTTPException):
             raise e
@@ -194,21 +196,13 @@ def process_data(data_id: int, new_filename: str):
 
     db = SessionLocal()
     try:
-        # Пример ошибки для проверки
-        #raise ValueError( "Тестовая ошибка обработки файла")
-        # status.data = "sdvwsevf"
-        # Имитация обработки (sleep)
-        # time.sleep(10)
-        # Формирование общего словаря
-
-        #print(new_filename)
         dataset = LoadData(new_filename)
         result_analit = json.dumps({
             "Visualization": Visualization(dataset),
             "LR_prediction": LR_prediction(dataset),
             "IntradayAnalytics": IntradayAnalytics(dataset)
         }, ensure_ascii=False)
-        print(result_analit)
+        #print(result_analit)
         # добавляем данные в базу
         db_data = db.query(Data).filter(Data.id == data_id).first()
         if db_data:
@@ -221,6 +215,7 @@ def process_data(data_id: int, new_filename: str):
             status.status = "completed"
             status.error_message = None
             db.commit()
+
     except Exception as e:
         # Обработка любых ошибок
         status = db.query(ProcessStatus).filter(ProcessStatus.id == data_id).first()
@@ -228,11 +223,10 @@ def process_data(data_id: int, new_filename: str):
             status.status = "error"
             status.error_message = f"Файл не может быть обработан: {str(e)}"
             db.commit()
-        # Экранируем ошибку для логирования
-        #error_traceback = traceback.format_exc()
-        #print(f"Ошибка обработки для ID {data_id}:\n{error_traceback}")
+
     finally:
         db.close()
+
 
 @app.post("/save-data/")
 @app.post("/api/save-data/")
@@ -263,13 +257,8 @@ async def save_data(background_tasks: BackgroundTasks, file: UploadFile = File(.
         # Валидация файла
         validate_xlsx_file(file_path)
 
-
         # Создание записи в json_data
-        #json_data = {"filename": new_filename}  # Временные данные, можно заменить реальными
-
-        # db_data = Data(data=json_data, upload_date=timestamp_str, file_name=new_filename)
         db_data = Data(upload_date=timestamp_str, file_name=new_filename)
-
         db.add(db_data)
         db.commit()
         db.refresh(db_data)
@@ -288,6 +277,7 @@ async def save_data(background_tasks: BackgroundTasks, file: UploadFile = File(.
     finally:
         db.close()
 
+# получить данные ( если готовы )
 @app.get("/get-data/{data_id}")
 @app.get("/api/get-data/{data_id}")
 async def get_data(data_id: int):
@@ -310,6 +300,7 @@ async def get_data(data_id: int):
     finally:
         db.close()
 
+# получить статус обработки
 @app.get("/get-status/{data_id}")
 @app.get("/api/get-status/{data_id}")
 async def get_status(data_id: int):
@@ -322,9 +313,20 @@ async def get_status(data_id: int):
     finally:
         db.close()
 
+
+app.mount("/swagger", StaticFiles(directory="swagger", html=True), name="static")
+
+
 # Отладочный метод
 @app.get("/health")
 @app.get("/api/health")
 async def health_check():
     print("Health check endpoint called")
     return {"status": "OK"}
+
+
+@app.get("/memory")
+def memory_usage():
+    process = psutil.Process()
+    rss_memory = process.memory_info().rss / (1024 * 1024)
+    return {"Memory usage": f"{rss_memory:.2f} MB"}
