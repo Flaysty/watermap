@@ -244,7 +244,7 @@ Mindmap возможных сценариев с причинами, обору�
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/recomendations.jpg)
 
 ## пример настройки порогов для выявления аномали1
-![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/trasholds.jpg)
+![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/trasholds.png)
 
 ## Архитектурная схема системы
 ![Forecast comparison](https://github.com/Flaysty/watermap/blob/main/docs/arch.jpg)
