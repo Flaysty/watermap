@@ -1,4 +1,5 @@
-# Система прогнозирования и предупреждения возникновения аварийных ситуаций на водоканале
+# Сценарно - ориентированная
+# система прогнозирования и предупреждения возникновения аварийных ситуаций на водоканале
 # https://карта-водоканала.рф
 
 ## Интерфейс предиктивно-рекомендательной системы 
@@ -62,12 +63,14 @@
 **Описание графика:** линии показывают фактическое (сплошная) потребление и прогноз (пунктирная) модели на горизонте в 4х суток.
 
 ## Сценарии аварийных ситуаций
+Исследование и классификация аварий на городских водоканалах мира: https://docs.google.com/spreadsheets/d/1E6D1bqdESWux7cXtjK5i6diYW7pzIFU_8fJ5mgt-tPY/edit?gid=0#gid=0
+
 ![mindmap](https://github.com/Flaysty/watermap/blob/main/docs/scenario/water_utility_mindmap.png)
-
-* Для генерации данных по этим сценариям используется скрипт: https://github.com/Flaysty/watermap
-* Ноутбук, в котором можно запустить генерацию: https://colab.research.google.com/drive/1eFdRcRFH9X9mGW44FlGzDVNzi4Od39ce?usp=sharing
+Mindmap возможных сценариев с причинами, оборудованием и последствиями
+(для увеличения нажмите на диаграмму)
+* Для генерации данных по этим сценариям используется скрипт: https://github.com/Flaysty/watermap/blob/main/docs/scenario/Vodokanal_scenario_generator.ipynb
+* Ноутбук, в котором можно запустить генерацию данных по сценариям: https://colab.research.google.com/drive/1eFdRcRFH9X9mGW44FlGzDVNzi4Od39ce?usp=sharing
 * Сгенерированные сценарии можно найти здесь: https://github.com/Flaysty/watermap/tree/main/docs/scenario
-
 
 ### 1) Прорыв магистрального водовода
 **Причина:** коррозия, гидроудар, работы подрядчика.  
